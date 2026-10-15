@@ -1,23 +1,4 @@
 # LLM Eval Harness
-
-A lightweight, command-line harness for evaluating LLM outputs against a set of test cases. It generates answers with a configurable model, scores each answer with three different metrics, and writes per-case results plus an aggregated summary. Two summaries from different runs can then be compared side by side to catch regressions.
-
-Any provider with an OpenAI-compatible API works (Gemini, OpenRouter, Hugging Face router, etc.).
-
-## Features
-
-- **Interactive test selection**: choose which difficulty levels and question types to run.
-- **Schema validation**: test cases are validated with Pydantic before running; invalid cases are reported and skipped.
-- **Config-driven models**: providers and model names live in `llm_config.toml`.
-- **Three scoring methods** per answer: exact match, semantic similarity, and LLM-as-judge.
-- **Latency tracking** for every generation call.
-- **Aggregated summary** by tag, by difficulty, and overall, plus mean and p95 latency.
-- **Run comparison** between a baseline summary and a new summary.
-
-## How it works
-
-```mermaid
-flowchart LR
     A[test_cases.json] --> B[test_loader.py<br/>validate + filter]
     B --> C[runner.py<br/>generate answers + latency]
     C --> D[Evaluator.py<br/>exact / similarity / LLM judge]
